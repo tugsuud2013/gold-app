@@ -8,7 +8,7 @@ export const usePurchase = () => {
   });
 
   const createPurchaseMutation = useMutation({
-    mutationFn: (grams: number) => purchaseApi.create(grams),
+    mutationFn: (grams: number) => purchaseApi.initiate(grams),
   });
 
   return { purchasesQuery, createPurchaseMutation };

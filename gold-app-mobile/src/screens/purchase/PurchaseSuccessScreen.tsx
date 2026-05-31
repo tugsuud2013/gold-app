@@ -32,7 +32,7 @@ export const PurchaseSuccessScreen = ({ route, navigation }: Props) => {
       </View>
       <View style={{ width: '100%', marginTop: 12, gap: 8 }}>
         <Button title="Гэрээ татах" fullWidth variant="secondary" onPress={() => {}} />
-        <Button title="Түрүүвч харах" fullWidth onPress={() => navigation.getParent()?.getParent()?.navigate('Түрүүвч')} />
+        <Button title="Wallet харах" fullWidth onPress={() => navigation.getParent()?.getParent()?.navigate('Wallet')} />
         <Button title="Нүүр хуудас" fullWidth variant="ghost" onPress={() => navigation.getParent()?.getParent()?.navigate('Нүүр')} />
       </View>
     </View>

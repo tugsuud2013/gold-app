@@ -5,7 +5,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Input } from '../../components/common/Input';
 import { Button } from '../../components/common/Button';
 import { userApi } from '../../api/user.api';
-import { useAuthStore } from '../../store/auth.store';
+import { useAuthStore, persistUserSnapshot } from '../../store/auth.store';
 
 const steps = ['Хувийн мэдээлэл', 'Гарын үсэг', 'Баталгаажуулалт'];
 
@@ -23,8 +23,9 @@ export const KycScreen = ({ navigation }: Props) => {
   const [error, setError] = useState('');
   const signatureRef = useRef<any>(null);
   const user = useAuthStore((s) => s.user);
-  const login = useAuthStore((s) => s.login);
+  const setSession = useAuthStore((s) => s.setSession);
   const token = useAuthStore((s) => s.token);
+  const refreshToken = useAuthStore((s) => s.refreshToken);
 
   const maskedRegister = useMemo(() => {
     if (registerNumber.length < 4) return registerNumber;
@@ -47,14 +48,17 @@ export const KycScreen = ({ navigation }: Props) => {
       setError('');
       await userApi.submitKyc({ firstName, lastName, registerNumber, signatureImageBase64 });
       if (user && token) {
-        await login(token, {
+        const updatedUser = {
           ...user,
           firstName,
           lastName,
+          fullName: `${firstName} ${lastName}`.trim(),
           registerNumber,
           signatureImageBase64,
-          kycStatus: 'PENDING',
-        });
+          kycStatus: 'PENDING' as const,
+        };
+        setSession(token, refreshToken, updatedUser);
+        await persistUserSnapshot(updatedUser);
       }
       Alert.alert('Амжилттай', 'KYC мэдээлэл амжилттай илгээгдлээ.');
       navigation.navigate('Tabs');

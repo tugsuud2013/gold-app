@@ -68,9 +68,53 @@ export interface PurchaseInitiateResponse {
 
 export interface GoldPrice {
   pricePerGram: number;
+  buyPrice?: number;
+  sellPrice?: number;
   changePercent: number;
   changeAmount?: number;
   updatedAt: string;
+}
+
+export interface AuthTokens {
+  accessToken: string;
+  refreshToken?: string;
+  tokenType?: string;
+}
+
+export interface BackendUserProfile {
+  id: string;
+  phoneNumber: string;
+  firstName?: string | null;
+  lastName?: string | null;
+  registerNumber?: string | null;
+  kycStatus?: User['kycStatus'];
+  membershipLevel?: User['membership'];
+  status?: string;
+  signatureImageUrl?: string | null;
+  createdAt?: string;
+  wallet?: {
+    balanceGrams: number | string;
+    totalPurchasedGrams?: number | string;
+    totalSoldGrams?: number | string;
+  } | null;
+}
+
+export interface BackendWalletBalance {
+  id: string;
+  userId: string;
+  balanceGrams: number | string;
+  totalPurchasedGrams?: number | string;
+  totalSoldGrams?: number | string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface BackendWalletTransaction {
+  id: string;
+  type: 'PURCHASE' | 'SELL_DEDUCT' | 'ADMIN_ADJUST' | string;
+  amountGrams: number | string;
+  note?: string | null;
+  createdAt: string;
 }
 
 export interface News {
@@ -91,10 +135,7 @@ export interface ChatMessage {
   createdAt: string;
 }
 
-export interface AuthResponse {
-  token: string;
-  user: User;
-}
+export interface AuthResponse extends AuthTokens {}
 
 export interface PaginatedResponse<T> {
   items: T[];

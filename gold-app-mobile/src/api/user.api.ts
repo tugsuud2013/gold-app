@@ -1,7 +1,7 @@
 import { apiClient } from './client';
-import { KycPayload, User } from '../types';
+import { BackendUserProfile, KycPayload } from '../types';
 
 export const userApi = {
-  me: () => apiClient.get<never, User>('/users/me'),
-  submitKyc: (payload: KycPayload) => apiClient.post('/api/user/kyc', payload),
+  getProfile: () => apiClient.get<never, BackendUserProfile>('/user/profile'),
+  submitKyc: (payload: KycPayload) => apiClient.post('/user/kyc', payload),
 };

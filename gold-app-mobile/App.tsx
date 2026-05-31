@@ -1,4 +1,3 @@
-import 'react-native-gesture-handler';
 import { useEffect } from 'react';
 import { AppState } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -30,7 +29,7 @@ export default function App() {
       <SafeAreaProvider>
         <QueryClientProvider client={queryClient}>
           <ToastProvider>
-            <StatusBar style="dark" />
+            <StatusBar style="light" />
             <AppBootstrap />
           </ToastProvider>
         </QueryClientProvider>

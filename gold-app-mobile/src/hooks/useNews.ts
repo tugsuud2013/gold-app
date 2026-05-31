@@ -5,7 +5,7 @@ export const useNewsList = () =>
   useInfiniteQuery({
     queryKey: ['news-list'],
     queryFn: ({ pageParam = 1 }) => newsApi.list(pageParam as number),
-    getNextPageParam: (lastPage, pages) => (lastPage.length ? pages.length + 1 : undefined),
+    getNextPageParam: (lastPage, pages) => (lastPage.length >= 10 ? pages.length + 1 : undefined),
     initialPageParam: 1,
   });
 

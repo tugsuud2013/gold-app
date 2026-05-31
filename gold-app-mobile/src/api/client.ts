@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
+import { getApiBaseUrl } from '../config/api';
 
 let unauthorizedHandler: (() => void) | null = null;
 
@@ -8,7 +9,7 @@ export const setUnauthorizedHandler = (handler: () => void) => {
 };
 
 export const apiClient = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_API_URL,
+  baseURL: getApiBaseUrl(),
   timeout: 15000,
 });
 
@@ -25,6 +26,7 @@ apiClient.interceptors.response.use(
   async (error) => {
     if (error?.response?.status === 401) {
       await SecureStore.deleteItemAsync('auth_token');
+      await SecureStore.deleteItemAsync('refresh_token');
       unauthorizedHandler?.();
       throw new Error('Нэвтрэх эрх хүчингүй болсон. Дахин нэвтэрнэ үү.');
     }
@@ -32,6 +34,6 @@ apiClient.interceptors.response.use(
     const message =
       error?.response?.data?.message ||
       'Сервертэй холбогдоход алдаа гарлаа. Дахин оролдоно уу.';
-    throw new Error(message);
+    throw new Error(typeof message === 'string' ? message : 'Алдаа гарлаа.');
   },
 );

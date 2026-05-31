@@ -12,7 +12,7 @@ export const ProfileScreen = () => {
   const logout = useAuthStore((s) => s.logout);
 
   const menus = [
-    { icon: '📋', label: 'Худалдааны түүх', action: () => navigation.navigate('Түрүүвч') },
+    { icon: '📋', label: 'Худалдааны түүх', action: () => navigation.getParent()?.navigate('Wallet') },
     { icon: '📄', label: 'Миний гэрээнүүд', action: () => navigation.navigate('ContractList') },
     { icon: '🔔', label: 'Мэдэгдлийн тохиргоо', action: () => {} },
     { icon: '🔒', label: 'Нууц үг солих', action: () => navigation.navigate('ChangePassword') },

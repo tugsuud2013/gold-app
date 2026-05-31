@@ -12,19 +12,25 @@ export const WalletCard = ({
   mnt: number;
   membership: 'NORMAL' | 'BRONZE' | 'SILVER' | 'GOLD';
 }) => (
-  <LinearGradient colors={[theme.colors.primaryDark, theme.colors.primaryLight]} style={styles.card}>
-    <Text style={styles.label}>Таны алт</Text>
-    <Text style={styles.grams}>{grams} гр</Text>
-    <Text style={styles.mnt}>~ ₮{mnt.toLocaleString()}</Text>
-    <View style={{ marginTop: 10 }}>
+  <LinearGradient colors={['#1A1A1A', '#2A2210', '#8B6914']} style={styles.card}>
+    <Text style={styles.label}>Таны алтны үлдэгдэл</Text>
+    <Text style={styles.grams}>{grams.toFixed(3)} гр</Text>
+    <Text style={styles.mnt}>≈ ₮{mnt.toLocaleString()}</Text>
+    <View style={styles.badgeWrap}>
       <MembershipBadge membership={membership} />
     </View>
   </LinearGradient>
 );
 
 const styles = StyleSheet.create({
-  card: { borderRadius: 16, padding: 18 },
-  label: { color: '#fff', opacity: 0.9 },
-  grams: { color: '#fff', fontWeight: '800', fontSize: 32 },
-  mnt: { color: '#fff', marginTop: 4 },
+  card: {
+    borderRadius: theme.borderRadius.lg,
+    padding: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(212, 175, 55, 0.35)',
+  },
+  label: { color: theme.colors.textSecondary, fontSize: 13 },
+  grams: { color: theme.colors.primaryLight, fontWeight: '800', fontSize: 34, marginTop: 4 },
+  mnt: { color: theme.colors.text, marginTop: 6, fontSize: 16 },
+  badgeWrap: { marginTop: 12 },
 });

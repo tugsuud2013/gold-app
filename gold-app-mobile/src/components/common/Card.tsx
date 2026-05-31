@@ -21,10 +21,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.surface,
     borderRadius: theme.borderRadius.md,
     padding: theme.spacing.lg,
-    shadowColor: '#000',
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 2,
+    borderWidth: 1,
+    borderColor: theme.colors.border,
   },
 });

@@ -73,27 +73,33 @@ const ProfileFlowNavigator = () => (
   </ProfileStack.Navigator>
 );
 
+const tabIcons: Record<string, keyof typeof Ionicons.glyphMap> = {
+  'Нүүр': 'home',
+  Wallet: 'wallet',
+  'Худалдаа': 'cart',
+  'Мэдээ': 'newspaper',
+  'Профайл': 'person',
+};
+
 const Tabs = () => (
   <Tab.Navigator
     screenOptions={({ route }) => ({
       headerShown: false,
-      tabBarActiveTintColor: theme.colors.primary,
-      tabBarIcon: ({ color, size }) => {
-        const icons: Record<string, keyof typeof Ionicons.glyphMap> = {
-          'Нүүр': 'home',
-          'Худалдах': 'cart',
-          'Түрүүвч': 'wallet',
-          'Мэдээ': 'newspaper',
-          'Профайл': 'person',
-        };
-        return <Ionicons name={icons[route.name]} size={size} color={color} />;
+      tabBarStyle: {
+        backgroundColor: theme.colors.tabBar,
+        borderTopColor: theme.colors.border,
       },
+      tabBarActiveTintColor: theme.colors.primary,
+      tabBarInactiveTintColor: theme.colors.textSecondary,
+      tabBarIcon: ({ color, size }) => (
+        <Ionicons name={tabIcons[route.name]} size={size} color={color} />
+      ),
     })}
   >
     <Tab.Screen name="Нүүр" component={HomeFlowNavigator} />
-    <Tab.Screen name="Худалдах" component={PurchaseFlowNavigator} />
-    <Tab.Screen name="Түрүүвч" component={WalletFlowNavigator} />
-    <Tab.Screen name="Мэдээ" component={NewsFlowNavigator} options={{ tabBarBadge: 3 }} />
+    <Tab.Screen name="Wallet" component={WalletFlowNavigator} />
+    <Tab.Screen name="Худалдаа" component={PurchaseFlowNavigator} />
+    <Tab.Screen name="Мэдээ" component={NewsFlowNavigator} />
     <Tab.Screen name="Профайл" component={ProfileFlowNavigator} />
   </Tab.Navigator>
 );

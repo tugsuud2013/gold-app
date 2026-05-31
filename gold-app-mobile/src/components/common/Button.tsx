@@ -37,7 +37,7 @@ export const Button = ({
       ]}
     >
       {loading ? (
-        <ActivityIndicator color={variant === 'secondary' ? theme.colors.primary : '#fff'} />
+        <ActivityIndicator color={variant === 'secondary' ? theme.colors.primary : '#111111'} />
       ) : (
         <Text style={[styles.text, variant === 'secondary' && styles.secondaryText]}>{title}</Text>
       )}
@@ -48,11 +48,15 @@ export const Button = ({
 const styles = StyleSheet.create({
   base: { borderRadius: theme.borderRadius.md, alignItems: 'center' },
   fullWidth: { width: '100%' },
-  text: { color: '#fff', fontWeight: '700' },
+  text: { color: '#111111', fontWeight: '700' },
   secondaryText: { color: theme.colors.primary },
   disabled: { opacity: 0.65 },
   primary: { backgroundColor: theme.colors.primary },
-  secondary: { backgroundColor: '#fff', borderWidth: 1, borderColor: theme.colors.primary },
+  secondary: {
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: theme.colors.primary,
+  },
   danger: { backgroundColor: theme.colors.error },
   ghost: { backgroundColor: 'transparent' },
   sm: { paddingVertical: 8, paddingHorizontal: 12 },

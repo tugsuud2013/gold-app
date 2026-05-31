@@ -23,7 +23,7 @@ export const ChatScreen = () => {
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 16, backgroundColor: '#fff' }}>
         <Text style={{ fontSize: 44 }}>🔒</Text>
         <Text style={{ marginTop: 10 }}>Чат ашиглахын тулд алт худалдан авна уу</Text>
-        <Pressable onPress={() => navigation.navigate('Худалдах')} style={{ marginTop: 12 }}>
+        <Pressable onPress={() => navigation.getParent()?.getParent()?.navigate('Худалдаа')} style={{ marginTop: 12 }}>
           <Text style={{ color: '#B8860B', fontWeight: '700' }}>Алт худалдах</Text>
         </Pressable>
       </View>

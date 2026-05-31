@@ -1,11 +1,18 @@
 import { apiClient } from './client';
-import { AuthResponse } from '../types';
+import { AuthTokens } from '../types';
 
 export const authApi = {
-  login: (phone: string, password: string) =>
-    apiClient.post<never, AuthResponse>('/auth/login', { phone, password }),
-  register: (phone: string, password: string) =>
-    apiClient.post('/auth/register', { phone, password }),
-  verifyOtp: (phone: string, code: string) =>
-    apiClient.post('/auth/verify-otp', { phone, code }),
+  login: (phoneNumber: string, password: string) =>
+    apiClient.post<never, AuthTokens>('/auth/login', { phoneNumber, password }),
+
+  register: (phoneNumber: string, password: string) =>
+    apiClient.post<never, AuthTokens>('/auth/register', { phoneNumber, password }),
+
+  sendOtp: (phoneNumber: string) =>
+    apiClient.post<never, { expiresInSeconds: number }>('/auth/send-otp', { phoneNumber }),
+
+  verifyOtp: (phoneNumber: string, otp: string) =>
+    apiClient.post<never, { verified: boolean }>('/auth/verify-otp', { phoneNumber, otp }),
+
+  logout: () => apiClient.post<never, { loggedOut: boolean }>('/auth/logout'),
 };
