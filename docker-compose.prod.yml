@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: goldapp
+      POSTGRES_USER: goldapp_user
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - goldapp_network
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    networks:
+      - goldapp_network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      DATABASE_URL: postgresql://goldapp_user:${DB_PASSWORD}@postgres:5432/goldapp
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+      QPAY_USERNAME: ${QPAY_USERNAME}
+      QPAY_PASSWORD: ${QPAY_PASSWORD}
+      QPAY_INVOICE_CODE: ${QPAY_INVOICE_CODE}
+      API_BASE_URL: ${API_BASE_URL}
+      PORT: 3000
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - uploads_data:/app/uploads
+    networks:
+      - goldapp_network
+
+  admin:
+    build:
+      context: ./gold-app-admin
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      NEXT_PUBLIC_API_URL: ${API_BASE_URL}
+    ports:
+      - "4000:4000"
+    networks:
+      - goldapp_network
+
+  nginx:
+    image: nginx:alpine
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certbot/conf:/etc/letsencrypt
+    depends_on:
+      - backend
+      - admin
+    networks:
+      - goldapp_network
+
+volumes:
+  postgres_data:
+  uploads_data:
+
+networks:
+  goldapp_network:
+    driver: bridge
