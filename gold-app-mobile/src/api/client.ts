@@ -34,6 +34,7 @@ apiClient.interceptors.response.use(
     const message =
       error?.response?.data?.message ||
       'Сервертэй холбогдоход алдаа гарлаа. Дахин оролдоно уу.';
+
     throw new Error(typeof message === 'string' ? message : 'Алдаа гарлаа.');
   },
 );
