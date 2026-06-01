@@ -8,21 +8,11 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
-
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const helmetMiddleware: any = (helmet as any).default ?? (helmet as any);
   app.enableCors({
-    origin: [
-      'http://localhost:3000',
-      'http://localhost:3001',
-      'http://localhost:3006',
-      'http://localhost:3007',
-      'http://localhost:4000',
-      'http://202.131.1.82:4000',
-      'http://altapp.mn',
-      'https://altapp.mn',
-    ],
+    origin: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
@@ -32,7 +22,6 @@ async function bootstrap() {
   app.use(compression());
   app.useStaticAssets(join(__dirname, '..', 'uploads'), { prefix: '/uploads' });
   app.setGlobalPrefix('api');
-
   const config = new DocumentBuilder()
     .setTitle('Gold App API')
     .setDescription('Алт худалдан авах системийн API баримт бичиг')
@@ -50,7 +39,6 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
-
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
